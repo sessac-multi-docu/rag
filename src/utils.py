@@ -2,6 +2,7 @@ import re
 import mysql.connector
 import openai
 import simplejson as json
+from schema import DB_SCHEMA
 from config import DEFAULT_CONFIG, DB_CONFIG
 from prompts import BASE_PROMPT, EXAMPLE_PROMPT, INTENT_PROMPT
 
@@ -97,3 +98,31 @@ def execute_sql_query(generated_sql: str, used_config: dict) -> str:
     cursor.close()
     conn.close()
     return results
+
+
+def generate_sql_query(prompt, config) -> str:
+    system_prompt = BASE_PROMPT.format(
+        schema=DB_SCHEMA,
+        age=config["insu_age"],
+        sex_num=config["sex"],
+        sex="남자" if config["sex"] == 1 else "여자",
+        product_type=config["product_type"],
+        expiry_year=config["expiry_year"],
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4-0125-preview",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0,
+    )
+
+    # SQL 쿼리 추출 및 정제
+    sql_query = response.choices[0].message.content.strip()
+
+    # 마크다운 코드 블록 제거
+    sql_query = sql_query.replace("```sql", "").replace("```", "").strip()
+
+    return sql_query

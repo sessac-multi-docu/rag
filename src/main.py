@@ -3,7 +3,6 @@ import mysql.connector
 from dotenv import load_dotenv
 from config import DEFAULT_CONFIG, DB_CONFIG
 from prompts import BASE_PROMPT, EXAMPLE_PROMPT, INTENT_PROMPT
-from schema import DB_SCHEMA
 from utils import process_query
 
 load_dotenv()
@@ -26,34 +25,6 @@ class IntentModule:
             ],
         )
         return response.choices[0].message.content
-
-
-def generate_sql_query(prompt, config) -> str:
-    system_prompt = BASE_PROMPT.format(
-        schema=DB_SCHEMA,
-        age=config["insu_age"],
-        sex_num=config["sex"],
-        sex="남자" if config["sex"] == 1 else "여자",
-        product_type=config["product_type"],
-        expiry_year=config["expiry_year"],
-    )
-
-    response = client.chat.completions.create(
-        model="gpt-4-0125-preview",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=0,
-    )
-
-    # SQL 쿼리 추출 및 정제
-    sql_query = response.choices[0].message.content.strip()
-
-    # 마크다운 코드 블록 제거
-    sql_query = sql_query.replace("```sql", "").replace("```", "").strip()
-
-    return sql_query
 
 
 class CompareModule:
