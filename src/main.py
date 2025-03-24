@@ -3,7 +3,7 @@ import mysql.connector
 from dotenv import load_dotenv
 from config import DEFAULT_CONFIG, DB_CONFIG
 from prompts import BASE_PROMPT, EXAMPLE_PROMPT, INTENT_PROMPT
-from utils import process_query
+from utils import process_query, generate_sql_query, execute_sql_query
 
 load_dotenv()
 client = openai.OpenAI()
