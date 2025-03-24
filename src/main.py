@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from typing import Optional
 from datetime import datetime
 from config import DEFAULT_CONFIG, DB_CONFIG
-from prompt import BASE_PROMPT, EXAMPLE_PROMPT, INTENT_PROMPT
+from prompts import BASE_PROMPT, EXAMPLE_PROMPT, INTENT_PROMPT
 from schema import DB_SCHEMA
 
 load_dotenv()
