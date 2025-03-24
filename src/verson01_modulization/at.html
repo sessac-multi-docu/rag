@@ -1,0 +1,139 @@
+<svg width="950" height="650" xmlns="http://www.w3.org/2000/svg">
+    <!-- 배경 및 제목 -->
+    <rect width="950" height="650" fill="#f8f9fa" />
+    <text x="475" y="30" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">S3 + 캐싱 패턴 기반 EKS 아키텍처</text>
+  
+    <!-- AWS 클라우드 경계 -->
+    <rect x="50" y="60" width="850" height="560" fill="none" stroke="#232F3E" stroke-width="2" stroke-dasharray="5,5" rx="10" ry="10" />
+    <text x="80" y="85" font-family="Arial" font-size="18" fill="#232F3E">AWS Cloud</text>
+  
+    <!-- 사용자 -->
+    <circle cx="100" cy="200" r="20" fill="#232F3E" />
+    <text x="100" y="205" font-family="Arial" font-size="12" text-anchor="middle" fill="white">User</text>
+  
+    <!-- ALB -->
+    <rect x="180" y="170" width="120" height="60" fill="#F58534" rx="5" ry="5" />
+    <text x="240" y="205" font-family="Arial" font-size="14" text-anchor="middle" fill="white">ALB</text>
+  
+    <!-- EKS 클러스터 경계 -->
+    <rect x="320" y="100" width="430" height="500" fill="none" stroke="#009639" stroke-width="2" rx="10" ry="10" />
+    <text x="350" y="125" font-family="Arial" font-size="18" fill="#009639">EKS Cluster</text>
+  
+    <!-- 가용 영역 A (상단) -->
+    <rect x="340" y="140" width="390" height="180" fill="#E8F4FA" rx="5" ry="5" stroke="#1166BB" stroke-width="1" />
+    <text x="375" y="160" font-family="Arial" font-size="14" font-weight="bold" fill="#1166BB">가용 영역 A</text>
+  
+    <!-- 프론트엔드 Pod 1 (가용 영역 A) - 왼쪽 배치 -->
+    <rect x="360" y="180" width="150" height="120" fill="white" stroke="#0073BB" stroke-width="2" rx="5" ry="5" />
+    <text x="435" y="200" font-family="Arial" font-size="14" text-anchor="middle" fill="#0073BB">Frontend Pod 1</text>
+    
+    <!-- Nginx 컨테이너 -->
+    <rect x="380" y="220" width="110" height="60" fill="#269539" rx="5" ry="5" />
+    <text x="435" y="255" font-family="Arial" font-size="12" text-anchor="middle" fill="white">Nginx/Flutter</text>
+  
+    <!-- 백엔드 Pod 1 (가용 영역 A) - 오른쪽 배치 -->
+    <rect x="560" y="180" width="150" height="120" fill="white" stroke="#0073BB" stroke-width="2" rx="5" ry="5" />
+    <text x="635" y="200" font-family="Arial" font-size="14" text-anchor="middle" fill="#0073BB">Backend Pod 1</text>
+    
+    <!-- FastAPI 컨테이너 -->
+    <rect x="570" y="220" width="80" height="40" fill="#00A1C9" rx="5" ry="5" />
+    <text x="610" y="245" font-family="Arial" font-size="12" text-anchor="middle" fill="white">FastAPI</text>
+    
+    <!-- Sync 사이드카 -->
+    <rect x="570" y="265" width="80" height="25" fill="#FF9900" rx="5" ry="5" />
+    <text x="610" y="282" font-family="Arial" font-size="10" text-anchor="middle" fill="white">Sync Agent</text>
+    
+    <!-- 로컬 캐시 -->
+    <rect x="660" y="220" width="40" height="70" fill="#D9EAD3" rx="5" ry="5" stroke="#548235" stroke-width="1" />
+    <text x="680" y="260" font-family="Arial" font-size="10" text-anchor="middle" fill="#548235" transform="rotate(-90, 680, 260)">Cache</text>
+  
+    <!-- 가용 영역 B (하단) -->
+    <rect x="340" y="340" width="390" height="180" fill="#E8F4FA" rx="5" ry="5" stroke="#1166BB" stroke-width="1" />
+    <text x="375" y="360" font-family="Arial" font-size="14" font-weight="bold" fill="#1166BB">가용 영역 B</text>
+  
+    <!-- 프론트엔드 Pod 2 (가용 영역 B) - 왼쪽 배치 -->
+    <rect x="360" y="380" width="150" height="120" fill="white" stroke="#0073BB" stroke-width="2" rx="5" ry="5" />
+    <text x="435" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#0073BB">Frontend Pod 2</text>
+    
+    <!-- Nginx 컨테이너 -->
+    <rect x="380" y="420" width="110" height="60" fill="#269539" rx="5" ry="5" />
+    <text x="435" y="455" font-family="Arial" font-size="12" text-anchor="middle" fill="white">Nginx/Flutter</text>
+  
+    <!-- 백엔드 Pod 2 (가용 영역 B) - 오른쪽 배치 -->
+    <rect x="560" y="380" width="150" height="120" fill="white" stroke="#0073BB" stroke-width="2" rx="5" ry="5" />
+    <text x="635" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#0073BB">Backend Pod 2</text>
+    
+    <!-- FastAPI 컨테이너 -->
+    <rect x="570" y="420" width="80" height="40" fill="#00A1C9" rx="5" ry="5" />
+    <text x="610" y="445" font-family="Arial" font-size="12" text-anchor="middle" fill="white">FastAPI</text>
+    
+    <!-- Sync 사이드카 -->
+    <rect x="570" y="465" width="80" height="25" fill="#FF9900" rx="5" ry="5" />
+    <text x="610" y="482" font-family="Arial" font-size="10" text-anchor="middle" fill="white">Sync Agent</text>
+    
+    <!-- 로컬 캐시 -->
+    <rect x="660" y="420" width="40" height="70" fill="#D9EAD3" rx="5" ry="5" stroke="#548235" stroke-width="1" />
+    <text x="680" y="460" font-family="Arial" font-size="10" text-anchor="middle" fill="#548235" transform="rotate(-90, 680, 460)">Cache</text>
+  
+    <!-- S3 버킷 (가로형으로 변경) -->
+    <rect x="780" y="230" width="100" height="70" fill="#E05243" rx="5" ry="5" />
+    <rect x="790" y="240" width="80" height="50" fill="#FFFFFF" fill-opacity="0.2" rx="3" ry="3" />
+    <text x="830" y="270" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">S3</text>
+    <text x="830" y="290" font-family="Arial" font-size="12" text-anchor="middle" fill="white">Vector DB</text>
+  
+    <!-- S3 백업/복구 흐름 추가 -->
+    <rect x="780" y="350" width="100" height="60" fill="#FFFFFF" stroke="#E05243" stroke-width="2" rx="5" ry="5" />
+    <text x="830" y="385" font-family="Arial" font-size="12" text-anchor="middle" fill="#E05243">백업/복구</text>
+    <path d="M 830,300 L 830,350" stroke="#E05243" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arrowhead)" />
+  
+    <!-- 연결선: 사용자와 ALB 간 -->
+    <path d="M 120,200 L 180,200" stroke="#232F3E" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    <text x="150" y="190" font-family="Arial" font-size="10" fill="#232F3E">요청</text>
+  
+    <!-- 연결선: ALB와 프론트엔드 간 -->
+    <path d="M 300,180 L 330,180 L 330,240 L 360,240" stroke="#F58534" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M 300,220 L 330,220 L 330,440 L 360,440" stroke="#F58534" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  
+    <!-- 연결선: 프론트엔드와 백엔드 간 (좌우 연결) -->
+    <path d="M 510,240 L 560,240" stroke="#269539" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M 510,440 L 560,440" stroke="#269539" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  
+    <!-- 연결선: 백엔드와 S3 간 (양방향) -->
+    <path d="M 710,220 L 745,220 L 745,240 L 780,240" stroke="#E05243" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M 780,290 L 745,290 L 745,270 L 710,270" stroke="#E05243" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M 710,420 L 750,420 L 750,250 L 780,250" stroke="#E05243" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    <path d="M 780,280 L 750,280 L 750,450 L 710,450" stroke="#E05243" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+    
+    <text x="740" y="230" font-family="Arial" font-size="10" fill="#E05243">데이터 조회</text>
+    <text x="740" y="300" font-family="Arial" font-size="10" fill="#E05243">동기화</text>
+  
+    <!-- 연결선: 백엔드 간 통신 (가용영역 간) -->
+    <path d="M 635,300 L 635,320 L 635,340 L 635,380" stroke="#0073BB" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arrowhead)" />
+    <text x="645" y="340" font-family="Arial" font-size="10" fill="#0073BB">서비스 간 통신</text>
+  
+    <!-- 화살표 마커 -->
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#232F3E" />
+      </marker>
+    </defs>
+  
+    <!-- 데이터 흐름 설명 -->
+    <text x="180" y="300" font-family="Arial" font-size="14" text-anchor="middle" fill="#333333" font-weight="bold">데이터 흐름 프로세스</text>
+    <text x="180" y="320" font-family="Arial" font-size="10" text-anchor="middle" fill="#333333">1. 사용자 요청</text>
+    <text x="180" y="340" font-family="Arial" font-size="10" text-anchor="middle" fill="#333333">2. ALB 라우팅</text>
+    <text x="180" y="360" font-family="Arial" font-size="10" text-anchor="middle" fill="#333333">3. 프론트엔드 처리</text>
+    <text x="180" y="380" font-family="Arial" font-size="10" text-anchor="middle" fill="#333333">4. 백엔드 API 호출</text>
+    <text x="180" y="400" font-family="Arial" font-size="10" text-anchor="middle" fill="#333333">5. 로컬 캐시 활용</text>
+    <text x="180" y="420" font-family="Arial" font-size="10" text-anchor="middle" fill="#333333">6. S3 동기화</text>
+  
+    <!-- 범례 -->
+    <rect x="100" y="520" width="200" height="90" fill="white" stroke="#232F3E" stroke-width="1" rx="5" ry="5" />
+    <text x="200" y="540" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">범례</text>
+    <rect x="110" y="550" width="15" height="15" fill="#269539" />
+    <text x="135" y="563" font-family="Arial" font-size="10" text-anchor="start">프론트엔드 (Nginx/Flutter)</text>
+    <rect x="110" y="570" width="15" height="15" fill="#00A1C9" />
+    <text x="135" y="583" font-family="Arial" font-size="10" text-anchor="start">백엔드 API (FastAPI)</text>
+    <rect x="110" y="590" width="15" height="15" fill="#FF9900" />
+    <text x="135" y="603" font-family="Arial" font-size="10" text-anchor="start">동기화 에이전트 (S3 캐시 동기화)</text>
+  </svg>

@@ -1,0 +1,11 @@
+fastapi>=0.104.0
+pydantic>=2.4.2
+uvicorn>=0.23.2
+python-dotenv>=1.0.0
+faiss-cpu>=1.7.4
+numpy>=1.24.3
+langchain>=0.0.335
+langchain-openai>=0.0.2
+langsmith>=0.0.68
+openai>=1.3.5
+typing-extensions>=4.8.0 
