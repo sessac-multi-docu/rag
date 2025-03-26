@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     if result_intent == "비교설계 질문":
         print(result_intent)
-        compare_module.handle_prompt(user_question)
+        # compare_module.handle_prompt(user_question)
     else:
         print("그 외 약관")
         response(user_question)
