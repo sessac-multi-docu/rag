@@ -2,7 +2,7 @@
 6_json_converter.py
 classify_intent.py
 query_results/*
-src/rag_vectors/*
+src/vector_db/*
 files/*
 .env
 

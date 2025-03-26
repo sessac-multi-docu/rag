@@ -1,8 +1,8 @@
 import openai
-import mysql.connector
 from dotenv import load_dotenv
 from config import DEFAULT_CONFIG, DB_CONFIG
 from prompts import BASE_PROMPT, EXAMPLE_PROMPT, INTENT_PROMPT
+from version01 import response
 from utils import process_query, generate_sql_query, execute_sql_query
 
 load_dotenv()
@@ -67,4 +67,5 @@ if __name__ == "__main__":
         print(result_intent)
         compare_module.handle_prompt(user_question)
     else:
-        print("version 01 붙일 예정")
+        print("그 외 약관")
+        response(user_question)

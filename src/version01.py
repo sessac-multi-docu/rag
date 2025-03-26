@@ -10,13 +10,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# # LangSmith 트래킹 관련 임포트 수정
-# from langsmith import Client, traceable
-# import langsmith
-
-# # OpenAI 래핑을 위한 임포트
-# from langsmith.wrappers import wrap_openai
-
 # LangChain 임포트
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -83,7 +76,7 @@ class RAGService:
         self.collections = []
         self.cached_embeddings = {}
         self.base_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "vector_db"
+            os.path.dirname(os.path.dirname(__file__)), "src/vector_db"
         )
 
     def load_collection(self, collection_name):
@@ -788,6 +781,7 @@ class RAGService:
                         run.add_metadata({"status": "응답 성공"})
 
                     print(f"-------- 답변 생성 완료 --------\n")
+                    print("answer", answer)
                     return answer
             except Exception as e:
                 print(f"LangSmith 트래킹 오류: {e}")
@@ -796,6 +790,7 @@ class RAGService:
                 answer = response.content
                 print(f"LLM 응답 생성 완료 (길이: {len(answer)} 자)")
                 print(f"-------- 답변 생성 완료 --------\n")
+                print(answer)
                 return answer
 
         except Exception as e:
@@ -996,6 +991,42 @@ class RAGService:
             raise e
 
 
+def response(query: SearchQuery):
+    global rag
+    # 만약 query가 문자열이면 SearchQuery 객체로 감쌈
+    if isinstance(query, str):
+        query = SearchQuery(query=query, collections=[])
+
+    available_collections = [
+        d
+        for d in os.listdir(rag.base_path)
+        if os.path.isdir(os.path.join(rag.base_path, d))
+    ]
+    print(f"사용 가능한 컬렉션: {available_collections}")
+
+    # 요청된 컬렉션이 있거나 쿼리 기반으로 컬렉션을 찾습니다
+    use_collections = (
+        query.collections
+        if query.collections
+        else rag.find_matching_collections(query.query_text, available_collections)
+    )
+    print(f"사용할 컬렉션: {use_collections}")
+
+    # 찾은 컬렉션 로드
+    for collection_name in use_collections:
+        rag.load_collection(collection_name)
+
+    # 청크 탐색 (각 컬렉션당 top_k=2)
+    search_results = rag.search(query.query_text, use_collections, top_k=2)
+
+    # 답변 생성
+    answer = rag.generate_answer(
+        query.query_text, search_results, os.getenv("OPENAI_API_KEY")
+    )
+
+    return answer
+
+
 def search(query: SearchQuery):
     try:
         global rag
@@ -1100,7 +1131,6 @@ def search(query: SearchQuery):
 
 
 # GET 요청도 처리할 수 있도록 추가
-@api_router.get("/search")
 async def search_get(query: str, collections: List[str] = None):
     try:
         global rag
